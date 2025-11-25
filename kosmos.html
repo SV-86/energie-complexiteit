@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kosmische Energie — Big History (Interactief)</title>
+<style>
+:root{
+  --bg:#05060a;
+  --card:#0f1720;
+  --accent:#0f9bd1;
+  --accent-2:#66fcf1;
+  --muted:#bfc8ca;
+  --text:#eef6f5;
+  --card-2:#081727;
+  --maxw:1100px;
+  --glass: rgba(255,255,255,0.03);
+}
+header {
+        /* Existing background gradient */
+        background: linear-gradient(90deg, #1f2833, #45a29e);
+        /* Add background image properties */
+        background-image: url('https://i.natgeofe.com/n/e484088d-3334-4ab6-9b75-623f7b8505c9/1086_16x9.jpg?w=1200'); /* Replace with your desired image URL */
+        background-size: cover; /* Ensures the image covers the entire header */
+        background-position: center; /* Centers the image */
+        background-repeat: no-repeat; /* Prevents the image from repeating */
+        background-blend-mode: overlay; /* Blends the image with the gradient for a subtle effect */
+}
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,#020409 0%,var(--bg) 70%);color:var(--text);font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+header{padding:56px 20px;text-align:center;background:linear-gradient(90deg,#041329 0%,#052f3c 100%);border-bottom:1px solid rgba(255,255,255,0.03)}
+header h1{margin:0;font-size:2.2rem;color:var(--accent-2)}
+header p{margin:8px 0 0;font-size:1.02rem;color:var(--muted)}
+nav{display:flex;justify-content:center;gap:10px;padding:14px 10px;background:var(--card);box-shadow:0 2px 6px rgba(0,0,0,0.6);position:sticky;top:0;z-index:8}
+nav a{color:var(--accent-2);text-decoration:none;padding:8px 12px;border-radius:6px;font-weight:600}
+nav a:hover{background:rgba(102,252,241,0.06)}
+.container{max-width:var(--maxw);margin:28px auto;padding:0 18px}
+.article{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+h2{color:var(--accent);margin-top:0}
+h3{color:var(--accent-2)}
+.small{color:var(--muted);font-size:0.95rem}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{background:rgba(102,252,241,0.04);padding:6px 10px;border-radius:999px;color:var(--accent-2);font-weight:600;font-size:0.92rem}
+
+/* ----- Big Bang / Inflation animation ----- */
+.bb-stage{display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.005));border-radius:10px}
+.universe{
+  width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #ffd, #ffcc66 6%, rgba(255,200,100,0.06) 8%, transparent 10%), radial-gradient(circle at 70% 70%, #fff3cc 0%, transparent 18%), linear-gradient(0deg,#050914, #071a1f);
+  position:relative;overflow:hidden;box-shadow:inset 0 0 80px rgba(255,200,120,0.02);
+}
+.inflation-pulse{position:absolute;left:50%;top:50%;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#fff6a0,#ffb84d);transform:translate(-50%,-50%);animation:inflate 3.8s ease-in-out infinite}
+@keyframes inflate{
+  0%{transform:translate(-50%,-50%) scale(0.02);opacity:0.9}
+  30%{transform:translate(-50%,-50%) scale(0.4);opacity:1}
+  60%{transform:translate(-50%,-50%) scale(1.2);opacity:0.6}
+  100%{transform:translate(-50%,-50%) scale(3.6);opacity:0}
+}
+.bb-caption{max-width:640px;text-align:center;color:var(--muted)}
+
+/* ----- Star lifecycle simulator ----- */
+.sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+@media (max-width:900px){.sim-grid{grid-template-columns:1fr}}
+.sim-controls{background:var(--card-2);padding:14px;border-radius:10px}
+.sim-controls label{display:block;margin-bottom:10px;color:var(--muted)}
+.range{width:100%}
+.sim-output{background:linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.01));padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+.stage-list{margin:10px 0;padding-left:18px}
+.stage-item{margin-bottom:8px}
+
+/* ----- Supernova & element synthesis ----- */
+.elem-grid{display:flex;flex-wrap:wrap;gap:8px}
+.elem{padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.01);cursor:pointer;border:1px solid rgba(255,255,255,0.02)}
+.elem:hover{transform:translateY(-4px);box-shadow:0 6px 18px rgba(0,0,0,0.5);border-color:rgba(102,252,241,0.18)}
+.elem-info{margin-top:10px;color:var(--muted)}
+
+/* ----- Black hole accretion disk ----- */
+.bh-card{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.accretion{width:180px;height:180px;border-radius:50%;background:conic-gradient(from 90deg, rgba(255,200,100,0.25), rgba(255,100,60,0.15), rgba(200,50,255,0.08), rgba(255,200,100,0.08));border:8px solid rgba(0,0,0,0.5);position:relative;overflow:hidden;animation:diskSpin 6s linear infinite}
+.accretion::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,#000 0%, #111 60%);box-shadow:0 0 18px rgba(255,255,255,0.02) inset}
+@keyframes diskSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.bh-info{max-width:560px;color:var(--muted)}
+
+/* ----- Cosmic web SVG ----- */
+.web-card{padding:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.004));border-radius:10px}
+#cosmicWeb svg{width:100%;height:300px}
+.node{cursor:pointer;transition:0.25s}
+.node:hover{r:12;stroke:#66fcf1;stroke-width:2}
+
+/* ----- Timeline ----- */
+.timeline{display:flex;overflow-x:auto;gap:12px;padding:12px 6px}
+.epoch{min-width:220px;background:rgba(255,255,255,0.01);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);cursor:pointer}
+.epoch h4{margin:0;color:var(--accent-2);font-size:1rem}
+.epoch p{margin:6px 0 0;color:var(--muted);font-size:0.92rem}
+
+/* ----- Zoom buttons ----- */
+.zoom-buttons{display:flex;gap:10px;justify-content:center;margin:12px 0}
+.zoom-buttons button{background:#0f1720;color:var(--accent-2);border:1px solid rgba(102,252,241,0.06);padding:8px 12px;border-radius:6px;cursor:pointer}
+.zoom-content{background:var(--card-2);padding:16px;border-radius:8px;color:var(--muted)}
+
+/* tooltip */
+.tooltip{position:absolute;background:rgba(0,0,0,0.85);color:#fff;padding:8px 10px;border-radius:6px;font-size:0.9rem;display:none;z-index:10}
+
+/* responsive */
+@media (max-width:600px){
+  header h1{font-size:1.5rem}
+  .universe{width:200px;height:200px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Kosmische Energie</h1>
+  <p class="small">Interactieve verkenning van het heelal: van de Oerknal tot sterren, supernova’s en zwarte gaten</p>
+</header>
+
+<nav>
+  <a href="index.html">🏠 Home</a>
+  <a href="kosmos.html">Kosmos</a>
+  <a href="leven.html">Leven</a>
+  <a href="beschaving.html">Beschaving</a>
+  <a href="toekomst.html">Toekomst</a>
+  <a href="ethiek.html">Ethiek</a>
+</nav>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <section class="article">
+    <h2>Inleiding: waarom kosmische energie telt</h2>
+    <div class="toc" aria-hidden="true">
+      <span class="chip">Oerknal & inflatie</span>
+      <span class="chip">Stellar evolution</span>
+      <span class="chip">Supernova & elementen</span>
+      <span class="chip">Zwarte gaten</span>
+      <span class="chip">Kosmisch web</span>
+      <span class="chip">Kosmische tijdlijn</span>
+    </div>
+    <p class="small">In dit artikel onderzoeken we hoe energie in het universum wordt georganiseerd: welke processen energie concentreren, hoe sterren elementen maken, en welke rol zwarte gaten spelen in galactische evolutie. Gebruik de interactieve elementen om direct te spelen met parameters en concepten.</p>
+  </section>
+
+  <!-- BIG BANG / INFLATION -->
+  <section class="article bb-stage" id="bigbang">
+    <h2>1. Oerknal & Inflatie</h2>
+    <div class="universe" aria-hidden="true">
+      <div class="inflation-pulse" id="inflationPulse" title="Inflation pulse: klik om het tempo te veranderen"></div>
+    </div>
+    <p class="bb-caption">De vroege expansie was extreem: in een fractie van een fractie van een seconde groeide het volume van het universum enorm — inflatie. Klik op de bol om de snelheid van de animatie te wijzigen en zie (visueel) hoe 'uitrekken' de densiteitsfluctuaties vergroot.</p>
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:8px">
+      <button id="slowInflation">Langzamer</button>
+      <button id="normInflation">Normaal</button>
+      <button id="fastInflation">Sneller</button>
+    </div>
+  </section>
+
+  <!-- STAR LIFECYCLE -->
+  <section class="article" id="stars">
+    <h2>2. Levenscyclus van sterren — simulatie</h2>
+    <div class="sim-grid">
+      <div class="sim-controls">
+        <label for="starMass">Kies de massa van de ster (in zonmassa's): <span id="massDisplay">1.0</span> ☉</label>
+        <input class="range" type="range" id="starMass" min="0.1" max="120" step="0.1" value="1.0">
+        <p class="small">Een hogere massa leidt tot snellere evolutie en andere eindtoestanden (neutronenster, zwart gat).</p>
+
+        <label for="metallicity">Metaliciteit (zwaardere elementen): <span id="metalDisplay">0.02</span></label>
+        <input class="range" type="range" id="metallicity" min="0.0001" max="0.05" step="0.0001" value="0.02">
+
+        <button id="simulateStar" style="margin-top:10px;padding:8px 12px;border-radius:6px;background:var(--accent);color:#04202a;border:none;cursor:pointer">Simuleer evolutie</button>
+      </div>
+
+      <div class="sim-output">
+        <h3>Resultaat</h3>
+        <div id="starResult">
+          <p>Kies een massa en klik op "Simuleer evolutie" om stadia en geschatte leeftijden te zien.</p>
+        </div>
+        <div class="stage-list" id="stageList"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;color:var(--muted)">
+      <p class="small">Uitleg: sterren met massa ≲ 8 ☉ eindigen meestal als witte dwergen; zwaardere sterren kunnen exploderen als supernova’s en resten achterlaten — neutronensterren of zwarte gaten. Massaverlies, metalliciteit en rotatie beïnvloeden de details sterk.</p>
+    </div>
+  </section>
+
+  <!-- SUPERNOVA & ELEMENTS -->
+  <section class="article" id="supernova">
+    <h2>3. Supernova's & elementensynthese</h2>
+    <p class="small">Supernova-explosies en neutronensterfusies zijn verantwoordelijk voor de productie van de meeste zwaardere elementen. Klik op een element om te zien via welk proces het waarschijnlijk is gemaakt.</p>
+
+    <div class="elem-grid" id="elemGrid">
+      <!-- common elements -->
+      <div class="elem" data-el="H">H (Waterstof)</div>
+      <div class="elem" data-el="He">He (Helium)</div>
+      <div class="elem" data-el="C">C (Koolstof)</div>
+      <div class="elem" data-el="O">O (Zuurstof)</div>
+      <div class="elem" data-el="Si">Si (Silicium)</div>
+      <div class="elem" data-el="Fe">Fe (Ijzer)</div>
+      <div class="elem" data-el="Au">Au (Goud)</div>
+      <div class="elem" data-el="U">U (Uranium)</div>
+      <div class="elem" data-el="Ca">Ca (Calcium)</div>
+      <div class="elem" data-el="N">N (Stikstof)</div>
+    </div>
+    <div class="elem-info" id="elemInfo">Klik op een element.</div>
+  </section>
+
+  <!-- BLACK HOLES -->
+  <section class="article" id="blackholes">
+    <h2>4. Zwarte gaten en accretieschijven</h2>
+    <div class="bh-card">
+      <div class="accretion" id="accretionDisk" title="Accretieschijf: draaiend gas rond een compact object"></div>
+      <div class="bh-info">
+        <h3 class="small">Waarom zwarte gaten energie zichtbaar maken</h3>
+        <p class="small">Wanneer gas in een accretieschijf valt, wordt potentiële zwaartekrachtenergie omgezet in warmte en straling — accretieschijven kunnen helderder zijn dan hele sterrenstelsels. Klik op de schijf om de rotatiesnelheid te veranderen.</p>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button id="slowDisk">Langzaam</button>
+          <button id="normDisk">Normaal</button>
+          <button id="fastDisk">Snel</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;color:var(--muted)">
+      <p class="small">Superzware zwarte gaten reguleren stervorming in hun gaststelsels via feedback — krachtige jets en winds stoten gas weg of verdichten het.</p>
+    </div>
+  </section>
+
+  <!-- COSMIC WEB -->
+  <section class="article web-card" id="cosmicWebCard">
+    <h2>5. Het Kosmische Web — visualisatie</h2>
+    <p class="small">Het heelal op grote schaal vormt een netwerk van filaments en holtes. Klik op knooppunten en draden voor info.</p>
+    <div id="cosmicWeb">
+      <!-- simple SVG cosmic web -->
+      <svg viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="g1"><stop offset="0%" stop-color="#66fcf1"/><stop offset="100%" stop-color="#0f9bd1"/></linearGradient>
+        </defs>
+        <!-- filaments as paths -->
+        <path d="M20 200 C120 120, 250 80, 380 150 S640 300, 980 200" stroke="rgba(102,252,241,0.08)" stroke-width="6" fill="none"/>
+        <path d="M50 330 C200 260, 320 200, 500 260 S780 340, 950 300" stroke="rgba(102,252,241,0.05)" stroke-width="5" fill="none"/>
+        <!-- nodes -->
+        <circle class="node" cx="380" cy="150" r="10" fill="#66fcf1" data-info="Proto-cluster: toekomstige cluster van sterrenstelsels (helder en materierijk)"/>
+        <circle class="node" cx="640" cy="300" r="10" fill="#66fcf1" data-info="Massief filament: veel gas en donkere materie; locatie van intense stervorming"/>
+        <circle class="node" cx="500" cy="260" r="8" fill="#0f9bd1" data-info="Groeiplek: groeiende sterrenstelsels en supernova-activiteit"/>
+        <circle class="node" cx="120" cy="120" r="7" fill="#66fcf1" data-info="Vroege stervorming: eerste sterren verlichten deze regio"/>
+        <circle class="node" cx="950" cy="300" r="9" fill="#66fcf1" data-info="Grote leegte rand: overgang naar onderdichte regio’s"/>
+      </svg>
+    </div>
+    <div style="margin-top:12px;color:var(--muted)">Tip: beweeg je muis over een punt om details te zien.</div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="article" id="timeline">
+    <h2>6. Kosmische tijdlijn — klikbare epochs</h2>
+    <div class="timeline" id="timelineRow">
+      <div class="epoch" data-epoch="planck">
+        <h4>Planck-era (t &lt; 10⁻⁴³ s)</h4>
+        <p class="small">Natuurkunde zoals we die kennen faalt — quantumgravitatie domineert.</p>
+      </div>
+      <div class="epoch" data-epoch="inflation">
+        <h4>Inflatie (10⁻³⁶ – 10⁻³² s)</h4>
+        <p class="small">Explosieve expansie; zaadjes van structuur gezaaid.</p>
+      </div>
+      <div class="epoch" data-epoch="nucleosynth">
+        <h4>Primordiale nucleosynthese (~3 min)</h4>
+        <p class="small">Eerste kernen (H, He, Li) worden gevormd.</p>
+      </div>
+      <div class="epoch" data-epoch="recombination">
+        <h4>Recombinatie (~380.000 jaar)</h4>
+        <p class="small">Eerste atomen — universum wordt transparant, CMB ontstaat.</p>
+      </div>
+      <div class="epoch" data-epoch="darkages">
+        <h4>Donkere eeuwen</h4>
+        <p class="small">Voordat de eerste sterren ontstonden was het universum donker en koud.</p>
+      </div>
+      <div class="epoch" data-epoch="reionization">
+        <h4>Re-ionisatie (z ≈ 6–10)</h4>
+        <p class="small">Eerste sterren en quasars herioniseren het universum.</p>
+      </div>
+      <div class="epoch" data-epoch="cosmic_today">
+        <h4>Nu (13,8 Gyr)</h4>
+        <p class="small">Sterren, planeten en leven — en ons verhaal.</p>
+      </div>
+    </div>
+
+    <div id="epochDetail" style="margin-top:12px;color:var(--muted)">Klik op een epoch voor meer details.</div>
+  </section>
+
+  <!-- ZOOM -->
+  <section class="article" id="zoom">
+    <h2>7. Zoom: van universum tot planeet</h2>
+    <div class="zoom-buttons">
+      <button data-zoom="universe">🌌 Universum</button>
+      <button data-zoom="galaxy">🌌 Galaxy</button>
+      <button data-zoom="star">☀️ Ster</button>
+      <button data-zoom="planet">🌍 Planeet</button>
+    </div>
+    <div class="zoom-content" id="zoomContent">Klik op een niveau om in te zoomen.</div>
+  </section>
+
+  <footer style="margin-top:18px;text-align:center;color:var(--muted)">
+    © 2025 Big History Blog — <a href="index.html" style="color:var(--accent-2)">Terug naar Home</a>
+  </footer>
+
+</div>
+
+<!-- tooltip element -->
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* ---------- Inflation controls ---------- */
+const inflationPulse = document.getElementById('inflationPulse');
+document.getElementById('slowInflation').addEventListener('click', ()=> {
+  inflationPulse.style.animationDuration = '6s';
+});
+document.getElementById('normInflation').addEventListener('click', ()=> {
+  inflationPulse.style.animationDuration = '3.8s';
+});
+document.getElementById('fastInflation').addEventListener('click', ()=> {
+  inflationPulse.style.animationDuration = '1.6s';
+});
+
+/* ---------- Star lifecycle simulator ---------- */
+const starMass = document.getElementById('starMass');
+const massDisplay = document.getElementById('massDisplay');
+const metallicity = document.getElementById('metallicity');
+const metalDisplay = document.getElementById('metalDisplay');
+const simulateStarBtn = document.getElementById('simulateStar');
+const starResult = document.getElementById('starResult');
+const stageList = document.getElementById('stageList');
+
+starMass.addEventListener('input', ()=> massDisplay.textContent = parseFloat(starMass.value).toFixed(1));
+metallicity.addEventListener('input', ()=> metalDisplay.textContent = parseFloat(metallicity.value).toFixed(4));
+
+simulateStarBtn.addEventListener('click', ()=> {
+  const M = parseFloat(starMass.value); // solar masses
+  const Z = parseFloat(metallicity.value); // metallicity
+  // Rough lifetime estimate: t ~ 10 * (M^-2.5) billion years for main-sequence (approx)
+  const t_ms_gyr = 10 * Math.pow(M, -2.5);
+  // For very high-mass stars, lifetime is << 1 Gyr
+  const stages = [];
+  // Main-sequence
+  stages.push({name:'Hoofdreeks (Main Sequence)', time: `${(t_ms_gyr*1000).toFixed(0)} Myr (~${Math.max(t_ms_gyr,0.001).toFixed(3)} Gyr)`});
+  // Red giant / supergiant phases duration scales ~10% of MS for massive stars
+  const post_ms = M > 8 ? `${(t_ms_gyr*100).toFixed(0)} kyr (kort maar heftig)` : `${(t_ms_gyr*0.1*1000).toFixed(0)} Myr`;
+  stages.push({name: M > 8 ? 'Superreus / korte evolutie' : 'Grote reus (Rood reus fase)', time: post_ms});
+  // End state
+  let endstate;
+  if (M < 0.8) endstate = 'Rode dwerg → lange levensduur (tijdelijk geen eindexplosie)';
+  else if (M < 8) endstate = 'Witte dwerg (na planetaire nevel)';
+  else if (M < 20) endstate = 'Neutronenster (na type II supernova)';
+  else endstate = 'Zwart gat (massieve supernova of directe instorting)';
+  stages.push({name:'Eindtoestand', time:endstate});
+  // Metallicity effect (higher Z -> stronger wind -> lower final mass)
+  const windNote = Z > 0.02 ? "Hoge metalliciteit bevordert sterke sterrenwinds, waardoor massaverlies kan leiden tot lichtere resten." : "Lage metalliciteit: zwakkere winds, retainment van massa.";
+  // Build output
+  starResult.innerHTML = `<p><strong>Ster-massa:</strong> ${M.toFixed(1)} ☉ — <strong>Geschatte hoofdreekslevensduur:</strong> ${t_ms_gyr.toFixed(3)} Gyr</p>
+    <p class="small">${windNote}</p>`;
+  stageList.innerHTML = '';
+  stages.forEach(s=>{
+    const el = document.createElement('div');
+    el.className='stage-item';
+    el.innerHTML = `<strong>${s.name}:</strong> ${s.time}`;
+    stageList.appendChild(el);
+  });
+});
+
+/* ---------- Supernova / element click ---------- */
+const elemInfo = document.getElementById('elemInfo');
+const elemProductions = {
+  'H': 'Waterstof: overvloedig in het vroege universum. Primordiaal product van de Oerknal.',
+  'He': 'Helium: ook primordiaal. Gebruikt als brandstof in sterren.',
+  'C': 'Koolstof: gevormd in sterren via triple-alpha-processen; essentieel voor organische chemie.',
+  'O': 'Zuurstof: product van massieve sterren; cruciaal voor aerobe respiratie op planeten.',
+  'Si': 'Silicium: product van geavanceerde fusie in grote sterren, bouwsteen voor rotsen.',
+  'Fe': 'Ijzer: eindpunt van fusie in kern; veel van het ijzer op aarde komt uit supernova’s.',
+  'Au': 'Goud: waarschijnlijk gevormd in neutronensterfusies of krachtige supernova-processen (r-proces).',
+  'U': 'Uranium: zeldzaam; r-proces in neutronensterfusies en extreme explosies verantwoordelijk.',
+  'Ca': 'Calcium: geproduceerd in massieve sterren en supernova’s; bouwsteen voor botten en rotsen.',
+  'N': 'Stikstof: gevormd in sterren en teruggedistribueerd via winds en explosies.'
+};
+document.querySelectorAll('#elemGrid .elem').forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    const el = btn.dataset.el;
+    elemInfo.textContent = `${el}: ${elemProductions[el] || 'Informatie niet beschikbaar.'}`;
+  });
+});
+
+/* ---------- Accretion disk speed controls ---------- */
+const acc = document.getElementById('accretionDisk');
+document.getElementById('slowDisk').addEventListener('click', ()=> { acc.style.animationDuration='12s'; });
+document.getElementById('normDisk').addEventListener('click', ()=> { acc.style.animationDuration='6s'; });
+document.getElementById('fastDisk').addEventListener('click', ()=> { acc.style.animationDuration='1.8s'; });
+
+/* ---------- Cosmic web tooltip ---------- */
+const tooltip = document.getElementById('tooltip');
+document.querySelectorAll('#cosmicWeb .node').forEach(node=>{
+  node.addEventListener('mouseenter', e=>{
+    tooltip.style.display='block';
+    tooltip.textContent = node.getAttribute('data-info');
+  });
+  node.addEventListener('mousemove', e=>{
+    const x = e.pageX + 12;
+    const y = e.pageY + 6;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+  });
+  node.addEventListener('mouseleave', ()=> {
+    tooltip.style.display='none';
+  });
+});
+
+/* ---------- Timeline epochs ---------- */
+const epochDetail = document.getElementById('epochDetail');
+const epochTexts = {
+  'planck': 'Planck-era: uiterst klein en energierijk; we hebben nog geen volledige theorie van quantumzwaartekracht.',
+  'inflation': 'Inflatie: het universum onderging extreem snelle expansie — kwantumfluctuaties werden vergroot tot kosmische structuren.',
+  'nucleosynth': 'Primordiale nucleosynthese: binnen de eerste minuten werden H en He (en sporen van Li) gevormd.',
+  'recombination': 'Recombinatie: elektronen en kernen vormden atomen; het universum werd transparant; het CMB werd vrijgegeven.',
+  'darkages': 'Donkere eeuwen: geen sterren, lichtloos — maar zwaartekracht werkte door en structuren groeiden.',
+  'reionization': 'Re-ionisatie: eerste sterren en quasarstraling ioniseerden het interstellair medium opnieuw.',
+  'cosmic_today': 'Nu: uitgestrekte structuren, sterrenstelsels, planeten en leven. De kosmos blijft evolueren.'
+};
+document.querySelectorAll('.epoch').forEach(ep=>{
+  ep.addEventListener('click', ()=> {
+    const key = ep.dataset.epoch;
+    epochDetail.textContent = epochTexts[key] || 'Geen detail beschikbaar';
+    // smooth highlight
+    document.querySelectorAll('.epoch').forEach(e=> e.style.boxShadow='none');
+    ep.style.boxShadow = '0 8px 24px rgba(0,0,0,0.6)';
+  });
+});
+
+/* ---------- Zoom content ---------- */
+const zoomContent = document.getElementById('zoomContent');
+const zoomMap = {
+  'universe': '🌌 Universum: bevat miljarden sterrenstelsels, koepels van donkere materie, en filamenten. Energie op deze schaal: kosmische achtergrondstraling, zwaartekracht-energie in clusters, en uitgestrekte warmtegassen.',
+  'galaxy': '🌀 Sterrenstelsel: miljarden sterren, gas en stof. Binnen een sterstelsel kunnen supernova’s en actieve kernen het gas recyclen of wegblazen.',
+  'star': '☀️ Ster: energiecentrale van kernfusie, produceert licht en zware elementen; stervorming en sterfgevallen bepalen chemische enrichment.',
+  'planet': '🌍 Planeet: een kleine, lokale energiebalans bepaalt klimaat en habitability — interne warmte, zonnestraling, en atmosfeer spelen samen.'
+};
+document.querySelectorAll('.zoom-buttons button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const key = btn.dataset.zoom;
+    zoomContent.textContent = zoomMap[key] || 'Onbekend niveau';
+  });
+});
+
+/* ---------- Accessibility niceties ---------- */
+/* keyboard interaction for nodes and elements */
+document.querySelectorAll('#elemGrid .elem, #cosmicWeb .node, .epoch').forEach(el=>{
+  el.setAttribute('tabindex','0');
+  el.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leven & Energie — Big History (Interactief)</title>
+<style>
+:root{
+  --bg:#071014;
+  --card:#0f1720;
+  --accent:#2ea58a;
+  --accent-2:#66fcf1;
+  --muted:#bfc8ca;
+  --text:#eef6f5;
+  --maxw:1000px;
+}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,#020306 0%,var(--bg) 60%);color:var(--text);font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+header{padding:56px 20px;text-align:center;background:linear-gradient(90deg,#0a2a18,#0b3b2f);border-bottom:1px solid rgba(255,255,255,0.03)}
+header h1{margin:0;font-size:2.1rem;color:var(--accent-2)}
+header p{margin:8px 0 0;font-size:1.02rem;color:var(--muted)}
+nav{display:flex;justify-content:center;gap:10px;padding:14px 10px;background:var(--card);box-shadow:0 2px 6px rgba(0,0,0,0.6)}
+nav a{color:var(--accent-2);text-decoration:none;padding:8px 12px;border-radius:6px;font-weight:600}
+nav a:hover{background:rgba(102,252,241,0.06)}
+.container{max-width:var(--maxw);margin:36px auto;padding:0 18px}
+article.card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.008));border-radius:12px;padding:28px;box-shadow:0 8px 30px rgba(0,0,0,0.7)}
+h2{color:var(--accent);margin-top:0}
+h3{color:var(--accent-2)}
+.subsection{background:rgba(255,255,255,0.01);padding:16px;border-radius:8px;margin:14px 0}
+footer{margin-top:36px;padding:22px 10px;text-align:center;color:var(--muted);font-size:0.95rem}
+
+/* 🔆 Fotosynthese animatie */
+.fotosynthese-diagram{
+  position:relative;
+  background:#091d1d;
+  border-radius:12px;
+  padding:30px;
+  text-align:center;
+  overflow:hidden;
+  box-shadow:inset 0 0 10px rgba(0,0,0,0.5);
+}
+.sun{
+  width:80px;height:80px;
+  background:radial-gradient(circle at center,#fff700,#ffbb00 70%,transparent);
+  border-radius:50%;
+  margin:0 auto;
+  animation:pulseSun 3s infinite alternate;
+}
+@keyframes pulseSun{
+  from{transform:scale(1);opacity:0.8}
+  to{transform:scale(1.15);opacity:1}
+}
+.arrow{
+  width:2px;
+  height:120px;
+  background:linear-gradient(to bottom,#fff700 0%,transparent 100%);
+  margin:10px auto;
+  animation:energyFlow 2s linear infinite;
+}
+@keyframes energyFlow{
+  0%{opacity:0.3}
+  50%{opacity:1}
+  100%{opacity:0.3}
+}
+.leaf{
+  width:160px;height:80px;
+  background:linear-gradient(90deg,#0f8b5f,#4fdba5);
+  border-radius:80px 80px 0 0;
+  margin:0 auto;
+  position:relative;
+}
+.leaf::after{
+  content:"";
+  position:absolute;
+  bottom:-4px;left:0;right:0;
+  height:8px;background:#0f8b5f;
+  border-radius:0 0 80px 80px;
+}
+.output{
+  margin-top:20px;color:#aef8e3;font-size:0.95rem;
+}
+
+/* ⚙️ ATP turbine animatie */
+.turbine{
+  width:150px;height:150px;
+  border:10px solid rgba(102,252,241,0.2);
+  border-radius:50%;
+  margin:0 auto;
+  position:relative;
+  animation:spin 4s linear infinite;
+}
+.turbine::before,.turbine::after{
+  content:"";
+  position:absolute;
+  width:8px;height:40px;
+  background:#66fcf1;
+  top:50%;left:50%;
+  transform-origin:bottom center;
+}
+.turbine::before{transform:rotate(0deg) translateY(-65px);}
+.turbine::after{transform:rotate(120deg) translateY(-65px);}
+.turbine span{
+  position:absolute;
+  width:8px;height:40px;
+  background:#66fcf1;
+  top:50%;left:50%;
+  transform-origin:bottom center;
+  transform:rotate(240deg) translateY(-65px);
+}
+@keyframes spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+.turbine-text{
+  text-align:center;
+  color:#c5c6c7;
+  margin-top:10px;
+  font-size:0.9rem;
+}
+
+/* 🌿 Food chain interactive */
+#foodchain{
+  background:#0a1418;
+  border-radius:10px;
+  padding:20px;
+  overflow:hidden;
+  text-align:center;
+}
+#foodchain svg{max-width:100%;height:auto;}
+#foodchain circle{cursor:pointer;transition:0.3s;}
+#foodchain circle:hover{stroke:#66fcf1;stroke-width:3;}
+.tooltip{
+  position:absolute;
+  background:rgba(0,0,0,0.8);
+  color:#fff;
+  padding:8px 10px;
+  border-radius:6px;
+  font-size:0.85rem;
+  display:none;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Leven & Energie</h1>
+  <p>Interactieve visualisaties: van zonlicht tot voedselweb</p>
+</header>
+
+<nav>
+  <a href="index.html">🏠 Home</a>
+  <a href="kosmos.html">Kosmos</a>
+  <a href="leven.html">Leven</a>
+  <a href="beschaving.html">Beschaving</a>
+  <a href="toekomst.html">Toekomst</a>
+</nav>
+
+<div class="container">
+  <article class="card">
+    <h2>Fotosynthese in actie</h2>
+    <p>Bekijk hoe energie van de zon wordt omgezet in chemische energie binnen een blad.</p>
+    <div class="fotosynthese-diagram">
+      <div class="sun"></div>
+      <div class="arrow"></div>
+      <div class="leaf"></div>
+      <div class="output">🌞 Lichtenergie → 🌿 Suikers + O<sub>2</sub></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <h2>ATP-synthase turbine</h2>
+    <p>De moleculaire motor die protonen gebruikt om ATP te produceren.</p>
+    <div class="turbine"><span></span></div>
+    <div class="turbine-text">Protonenstroom → Mechanische rotatie → ATP-synthese</div>
+  </article>
+
+  <article class="card">
+    <h2>Interactieve energieketen</h2>
+    <p>Klik op de cirkels om te ontdekken hoe energie door een ecosysteem stroomt.</p>
+    <div id="foodchain">
+      <svg viewBox="0 0 600 300">
+        <circle cx="100" cy="150" r="30" fill="#2ea58a" data-info="Planten vangen zonlicht en zetten het om in suikers (producenten)." />
+        <circle cx="250" cy="150" r="30" fill="#4fc3f7" data-info="Herbivoren eten planten en halen hun energie uit biomassa (primaire consumenten)." />
+        <circle cx="400" cy="150" r="30" fill="#ffca28" data-info="Carnivoren eten herbivoren en benutten geconcentreerde energie (secundaire consumenten)." />
+        <circle cx="550" cy="150" r="30" fill="#d32f2f" data-info="Afbrekers recyclen dode materie en brengen voedingsstoffen terug in het systeem." />
+      </svg>
+    </div>
+  </article>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<footer>
+  © 2025 Big History Blog — <a href="index.html" style="color:#66fcf1;">Terug naar Home</a>
+</footer>
+
+<script>
+/* Interactieve voedselketen */
+const tooltip = document.getElementById('tooltip');
+document.querySelectorAll('#foodchain circle').forEach(c=>{
+  c.addEventListener('mouseenter',e=>{
+    tooltip.style.display='block';
+    tooltip.textContent=c.dataset.info;
+  });
+  c.addEventListener('mousemove',e=>{
+    tooltip.style.left=(e.pageX+10)+'px';
+    tooltip.style.top=(e.pageY-30)+'px';
+  });
+  c.addEventListener('mouseleave',()=>{
+    tooltip.style.display='none';
+  });
+});
+</script>
+
+
+<article class="card">
+  <h2>Energie­balans van een ecosysteem</h2>
+  <p>
+    Elk ecosysteem heeft een “energie-economie”. De zon levert energie aan planten,
+    planten voeden herbivoren, en carnivoren consumeren deze. Pas de waarden aan en zie wat er gebeurt!
+  </p>
+
+  <div id="simulator" style="background:#0b1a1d;padding:20px;border-radius:12px;margin-top:10px;">
+    <label>Zonlicht-intensiteit ☀️:
+      <input type="range" id="sunRange" min="0" max="100" value="60">
+      <span id="sunValue">60</span>%
+    </label><br><br>
+
+    <label>Aantal planten 🌿:
+      <input type="range" id="plantRange" min="0" max="100" value="50">
+      <span id="plantValue">50</span>
+    </label><br><br>
+
+    <label>Aantal roofdieren 🐺:
+      <input type="range" id="predRange" min="0" max="100" value="20">
+      <span id="predValue">20</span>
+    </label><br><br>
+
+    <button id="calcEnergy" style="background:#2ea58a;color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer;">Bereken Energie</button>
+
+    <div id="result" style="margin-top:18px;font-weight:600;color:#66fcf1;"></div>
+  </div>
+</article>
+
+<script>
+document.getElementById("calcEnergy").addEventListener("click", function() {
+  const sun = +document.getElementById("sunRange").value;
+  const plants = +document.getElementById("plantRange").value;
+  const predators = +document.getElementById("predRange").value;
+
+  // Simpele formule: totale energieproductie verminderd door predatie
+  const energy = (sun * plants * 0.8) - (predators * 50);
+  const balance = energy > 5000 ? "🌿 Stabiel ecosysteem" :
+                  energy > 2000 ? "😐 Kwetsbaar evenwicht" :
+                  "⚠️ Energetisch instabiel!";
+  document.getElementById("result").innerHTML =
+    `Totale energie: <strong>${energy.toFixed(0)}</strong> | ${balance}`;
+});
+
+["sunRange","plantRange","predRange"].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener("input",()=>{
+    document.getElementById(id.replace("Range","Value")).textContent=el.value;
+  });
+});
+</script>
+
+
+<article class="card">
+  <h2>De cyclus van ademhaling</h2>
+  <p>
+    Terwijl planten energie vastleggen, zetten cellen suikers om in bruikbare energie (ATP).  
+    Deze reis gebeurt in drie hoofd­fasen:
+  </p>
+
+  <div class="respiration-timeline" style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;position:relative;">
+    <div class="step" data-step="Glycolyse">
+      <div class="dot"></div><p>1️⃣ Glycolyse</p>
+    </div>
+    <div class="step" data-step="Citroenzuurcyclus">
+      <div class="dot"></div><p>2️⃣ Citroenzuurcyclus</p>
+    </div>
+    <div class="step" data-step="Oxidatieve fosforylatie">
+      <div class="dot"></div><p>3️⃣ Oxidatieve fosforylatie</p>
+    </div>
+    <div id="energyPulse"></div>
+  </div>
+
+  <div id="phaseDesc" style="margin-top:20px;color:#aef8e3;">Klik op een stap om uitleg te zien.</div>
+</article>
+
+<style>
+.respiration-timeline .dot{
+  width:22px;height:22px;background:#66fcf1;border-radius:50%;margin:0 auto;cursor:pointer;transition:0.3s;
+}
+.respiration-timeline .dot:hover{transform:scale(1.2);background:#2ea58a;}
+.step p{text-align:center;color:#c5c6c7;font-size:0.9rem;}
+#energyPulse{
+  position:absolute;
+  top:10px;left:0;width:0;height:3px;background:linear-gradient(to right,#66fcf1,#2ea58a);
+  animation:pulseLine 6s linear infinite;
+}
+@keyframes pulseLine{
+  0%{width:0;}
+  100%{width:100%;}
+}
+</style>
+
+<script>
+const desc=document.getElementById("phaseDesc");
+document.querySelectorAll(".respiration-timeline .dot").forEach(dot=>{
+  dot.addEventListener("click",()=>{
+    const phase=dot.parentElement.dataset.step;
+    let info="";
+    if(phase==="Glycolyse")
+      info="In het cytoplasma wordt glucose opgesplitst in pyrodruivenzuur, waarbij een kleine hoeveelheid ATP vrijkomt.";
+    else if(phase==="Citroenzuurcyclus")
+      info="In de mitochondriën wordt pyrodruivenzuur verder afgebroken; CO₂ komt vrij, elektronen worden overgedragen aan NADH/FADH₂.";
+    else
+      info="Elektronen bewegen over een transportketen; hun energie wordt gebruikt om ATP te maken – de brandstof van het leven.";
+    desc.textContent=info;
+  });
+});
+
+</script>
+
+
+<article class="card">
+  <h2>Zoom in op het Leven</h2>
+  <p>Klik op een niveau om te ontdekken hoe energie daar werkt.</p>
+
+  <div id="zoomButtons" style="display:flex;gap:10px;justify-content:center;margin-bottom:14px;">
+    <button data-zoom="ecosysteem">🌍 Ecosysteem</button>
+    <button data-zoom="cel">🧫 Cel</button>
+    <button data-zoom="molecuul">⚛️ Molecuul</button>
+  </div>
+
+  <div id="zoomContent" style="background:#0a1618;padding:20px;border-radius:10px;min-height:120px;">
+    🌍 Ecosystemen vangen en verdelen zonne-energie via talloze levensvormen.
+  </div>
+</article>
+
+<style>
+#zoomButtons button{
+  background:#1f2833;color:#66fcf1;border:1px solid #66fcf1;
+  border-radius:6px;padding:8px 12px;cursor:pointer;
+  transition:0.3s;
+}
+#zoomButtons button:hover{background:#2ea58a;color:#fff;}
+</style>
+
+<script>
+const zoomMap={
+  "ecosysteem":"🌍 Ecosystemen vangen en verdelen zonne-energie via talloze levensvormen.",
+  "cel":"🧫 Binnen cellen beheren mitochondriën energiestromen en zetten suikers om in ATP.",
+  "molecuul":"⚛️ Op moleculair niveau draait alles om elektronenoverdracht – de ultieme energiestroom."
+};
+document.querySelectorAll("#zoomButtons button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.getElementById("zoomContent").textContent=zoomMap[btn.dataset.zoom];
+  });
+});
+</script>
+
+ <footer style="margin-top:18px;text-align:center;color:var(--muted)">
+    © 2025 Big History Blog — <a href="index.html" style="color:var(--accent-2)">Terug naar Home</a>
+  </footer>
+
+</body>
+</html>
+

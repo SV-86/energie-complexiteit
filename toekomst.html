@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Toekomst — Big History (Interactief)</title>
+<style>
+:root{
+  --bg:#05060a;
+  --card:#0f1720;
+  --accent:#0f9bd1;
+  --accent-2:#66fcf1;
+  --muted:#bfc8ca;
+  --text:#eef6f5;
+  --card-2:#081727;
+  --maxw:1100px;
+  --glass: rgba(255,255,255,0.03);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,#006691 0%,var(--bg) 70%);color:var(--text);font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+header {
+  padding:56px 20px;text-align:center;
+  background: linear-gradient(90deg, #1f2833, #45a29e);
+  background-image: url('https://images.unsplash.com/photo-1532074205216-c8e8e1b21db0?crop=entropy&cs=tinysrgb&fit=max&w=1200'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+}
+header h1{margin:0;font-size:2.2rem;color:var(--accent-2)}
+header p{margin:8px 0 0;font-size:1.02rem;color:var(--muted)}
+nav{display:flex;justify-content:center;gap:10px;padding:14px 10px;background:var(--card);box-shadow:0 2px 6px rgba(0,0,0,0.6);position:sticky;top:0;z-index:8}
+nav a{color:var(--accent-2);text-decoration:none;padding:8px 12px;border-radius:6px;font-weight:600}
+nav a:hover{background:rgba(102,252,241,0.06)}
+.container{max-width:var(--maxw);margin:28px auto;padding:0 18px}
+.article{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+h2{color:var(--accent);margin-top:0}
+h3{color:var(--accent-2)}
+.small{color:var(--muted);font-size:0.95rem}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{background:rgba(102,252,241,0.04);padding:6px 10px;border-radius:999px;color:var(--accent-2);font-weight:600;font-size:0.92rem}
+
+/* ----- Climate & Energy simulation ----- */
+.sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+@media (max-width:900px){.sim-grid{grid-template-columns:1fr}}
+.sim-controls{background:var(--card-2);padding:14px;border-radius:10px}
+.sim-controls label{display:block;margin-bottom:10px;color:var(--muted)}
+.range{width:100%}
+.sim-output{background:linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.01));padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+.stage-list{margin:10px 0;padding-left:18px}
+
+/* ----- Technologische vooruitgang ----- */
+.tech-grid{display:flex;flex-wrap:wrap;gap:10px}
+.tech-card{flex:1 1 200px;background:rgba(255,255,255,0.01);padding:12px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.02)}
+.tech-card:hover{transform:translateY(-4px);box-shadow:0 6px 18px rgba(0,0,0,0.5);border-color:rgba(102,252,241,0.18)}
+.tech-info{margin-top:10px;color:var(--muted)}
+
+/* ----- Timeline ----- */
+.timeline{display:flex;overflow-x:auto;gap:12px;padding:12px 6px}
+.epoch{min-width:220px;background:rgba(255,255,255,0.01);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);cursor:pointer}
+.epoch h4{margin:0;color:var(--accent-2);font-size:1rem}
+.epoch p{margin:6px 0 0;color:var(--muted);font-size:0.92rem}
+
+/* ----- Zoom buttons ----- */
+.zoom-buttons{display:flex;gap:10px;justify-content:center;margin:12px 0}
+.zoom-buttons button{background:#0f1720;color:var(--accent-2);border:1px solid rgba(102,252,241,0.06);padding:8px 12px;border-radius:6px;cursor:pointer}
+.zoom-content{background:var(--card-2);padding:16px;border-radius:8px;color:var(--muted)}
+
+/* tooltip */
+.tooltip{position:absolute;background:rgba(0,0,0,0.85);color:#fff;padding:8px 10px;border-radius:6px;font-size:0.9rem;display:none;z-index:10}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Toekomst</h1>
+  <p class="small">Interactieve verkenning: klimaat, technologie en kosmische vooruitzichten</p>
+</header>
+
+<nav>
+  <a href="index.html">🏠 Home</a>
+  <a href="kosmos.html">Kosmos</a>
+  <a href="leven.html">Leven</a>
+  <a href="beschaving.html">Beschaving</a>
+  <a href="toekomst.html">Toekomst</a>
+</nav>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <section class="article">
+    <h2>Inleiding: de toekomst begrijpen</h2>
+    <div class="toc" aria-hidden="true">
+      <span class="chip">Klimaat & energie</span>
+      <span class="chip">Technologische vooruitgang</span>
+      <span class="chip">Ruimtekolonisatie</span>
+      <span class="chip">Kosmische tijdlijn</span>
+    </div>
+    <p class="small">Deze pagina onderzoekt scenario's voor de komende eeuwen en millennia: van klimaatmodellen en duurzame energie, tot toekomstige technologieën en de mogelijkheden van menselijke kolonisatie van andere planeten. Interactieve simulaties maken de concepten tastbaar.</p>
+  </section>
+
+  <!-- CLIMATE & ENERGY SIMULATION -->
+  <section class="article" id="climate">
+    <h2>1. Klimaat & Energie simulatie</h2>
+    <div class="sim-grid">
+      <div class="sim-controls">
+        <label for="co2Level">CO₂-niveau (ppm): <span id="co2Display">420</span></label>
+        <input class="range" type="range" id="co2Level" min="300" max="1000" step="10" value="420">
+
+        <label for="solarEnergy">Zon-energie gebruik (%): <span id="solarDisplay">25</span></label>
+        <input class="range" type="range" id="solarEnergy" min="0" max="100" step="5" value="25">
+
+        <label for="techAdoption">Technologie adoptie (%): <span id="techDisplay">50</span></label>
+        <input class="range" type="range" id="techAdoption" min="0" max="100" step="5" value="50">
+
+        <button id="simulateClimate" style="margin-top:10px;padding:8px 12px;border-radius:6px;background:var(--accent);color:#04202a;border:none;cursor:pointer">Simuleer toekomst</button>
+      </div>
+
+      <div class="sim-output">
+        <h3>Resultaat</h3>
+        <div id="climateResult">
+          <p>Pas de sliders aan en klik op "Simuleer toekomst" om voorspellingen te zien.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECHNOLOGICAL ADVANCEMENT -->
+  <section class="article" id="technology">
+    <h2>2. Technologische vooruitgang</h2>
+    <p class="small">Klik op een technologie om de impact te ontdekken.</p>
+    <div class="tech-grid" id="techGrid">
+      <div class="tech-card" data-tech="ai">AI & automatisering</div>
+      <div class="tech-card" data-tech="fusion">Kernfusie energie</div>
+      <div class="tech-card" data-tech="space">Ruimtekolonisatie</div>
+      <div class="tech-card" data-tech="nanotech">Nanotechnologie</div>
+      <div class="tech-card" data-tech="bio">Biotechnologie & gezondheid</div>
+    </div>
+    <div class="tech-info" id="techInfo">Klik op een technologie om details te zien.</div>
+  </section>
+
+  <!-- COSMIC TIMELINE -->
+  <section class="article" id="timeline">
+    <h2>3. Kosmische tijdlijn van de toekomst</h2>
+    <div class="timeline" id="timelineRow">
+      <div class="epoch" data-epoch="2100">
+        <h4>2100</h4>
+        <p class="small">Hogere temperaturen, innovatieve energieoplossingen, eerste Marsmissies.</p>
+      </div>
+      <div class="epoch" data-epoch="2200">
+        <h4>2200</h4>
+        <p class="small">Ruimtelijke nederzettingen, fusie-energie breed ingezet, AI-infrastructuren.</p>
+      </div>
+      <div class="epoch" data-epoch="2500">
+        <h4>2500</h4>
+        <p class="small">Interplanetaire economie, klimaatstabilisatie, genetische verbeteringen bij mensen.</p>
+      </div>
+      <div class="epoch" data-epoch="3000">
+        <h4>3000+</h4>
+        <p class="small">Menselijke expansie in de Melkweg, megastructuren rond sterren, kosmische kolonisatie.</p>
+      </div>
+    </div>
+    <div id="epochDetail" style="margin-top:12px;color:var(--muted)">Klik op een epoch voor meer details.</div>
+  </section>
+
+  <!-- ZOOM -->
+  <section class="article" id="zoom">
+    <h2>4. Zoom: van planeet tot sterrenstelsel</h2>
+    <div class="zoom-buttons">
+      <button data-zoom="planet">🌍 Planeet</button>
+      <button data-zoom="city">🏙️ Stad</button>
+      <button data-zoom="colony">🚀 Ruimtekolonie</button>
+      <button data-zoom="galaxy">🌌 Sterrenstelsel</button>
+    </div>
+    <div class="zoom-content" id="zoomContent">Klik op een niveau om in te zoomen.</div>
+  </section>
+
+  <footer style="margin-top:18px;text-align:center;color:var(--muted)">
+    © 2025 Big History Blog — <a href="index.html" style="color:var(--accent-2)">Terug naar Home</a>
+  </footer>
+
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* ---------- Climate simulation ---------- */
+const co2 = document.getElementById('co2Level');
+const solar = document.getElementById('solarEnergy');
+const tech = document.getElementById('techAdoption');
+const co2Display = document.getElementById('co2Display');
+const solarDisplay = document.getElementById('solarDisplay');
+const techDisplay = document.getElementById('techDisplay');
+const simulateClimateBtn = document.getElementById('simulateClimate');
+const climateResult = document.getElementById('climateResult');
+
+[co2, solar, tech].forEach(el=>{
+  el.addEventListener('input', ()=>{
+    if(el===co2) co2Display.textContent = el.value;
+    if(el===solar) solarDisplay.textContent = el.value;
+    if(el===tech) techDisplay.textContent = el.value;
+  });
+});
+
+simulateClimateBtn.addEventListener('click', ()=>{
+  const co2Val = +co2.value;
+  const solarVal = +solar.value;
+  const techVal = +tech.value;
+  let tempRise = ((co2Val-280)/100*0.8) - solarVal*0.02 - techVal*0.01;
+  tempRise = Math.max(tempRise,0).toFixed(2);
+  climateResult.innerHTML = `<p>Geschatte temperatuurstijging: <strong>${tempRise} °C</strong> tegen 2100</p>`;
+});
+
+/* ---------- Technology info ---------- */
+const techMap = {
+  'ai': 'AI & automatisering: kan productie en besluitvorming revolutioneren, maar roept ethische vragen op.',
+  'fusion': 'Kernfusie: schone energiebron met enorme potentie om CO₂-uitstoot te reduceren.',
+  'space': 'Ruimtekolonisatie: vestigingen op maan en Mars, voor hulpbronnen en menselijke expansie.',
+  'nanotech': 'Nanotechnologie: microscopische machines voor geneeskunde, materiaalwetenschap en energie.',
+  'bio': 'Biotechnologie: genetische manipulatie, gezondheid en landbouwinnovaties.'
+};
+document.querySelectorAll('#techGrid .tech-card').forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    const key = btn.dataset.tech;
+    document.getElementById('techInfo').textContent = techMap[key] || 'Geen info beschikbaar.';
+  });
+});
+
+/* ---------- Timeline epochs ---------- */
+const epochDetail = document.getElementById('epochDetail');
+const epochTexts = {
+  '2100': '2100: focus op klimaatmitigatie, hernieuwbare energie, en eerste menselijke stappen naar Mars.',
+  '2200': '2200: fusie-energie breed ingezet, steden gemoderniseerd, AI-gestuurde infrastructuur.',
+  '2500': '2500: interplanetaire handel en genetische verbeteringen, klimaat stabiler door geavanceerde technologie.',
+  '3000': '3000+: expansie naar andere sterrenstelsels, megastructuren, energiebeheersing op kosmische schaal.'
+};
+document.querySelectorAll('.epoch').forEach(ep=>{
+  ep.addEventListener('click', ()=> {
+    const key = ep.dataset.epoch;
+    epochDetail.textContent = epochTexts[key] || 'Geen detail beschikbaar';
+    document.querySelectorAll('.epoch').forEach(e=> e.style.boxShadow='none');
+    ep.style.boxShadow = '0 8px 24px rgba(0,0,0,0.6)';
+  });
+});
+
+/* ---------- Zoom content ---------- */
+const zoomContent = document.getElementById('zoomContent');
+const zoomMap = {
+  'planet': '🌍 Planeet: Klimaat en lokale ecosystemen, energiehuishouding, en menselijke infrastructuur.',
+  'city': '🏙️ Stad: Stedelijke energie, mobiliteit, en technologische implementatie.',
+  'colony': '🚀 Ruimtekolonie: Zelfvoorzienende habitats op andere planeten of manen.',
+  'galaxy': '🌌 Sterrenstelsel: Interstellaire energie, megastructuren en kosmische expansie.'
+};
+document.querySelectorAll('.zoom-buttons button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const key = btn.dataset.zoom;
+    zoomContent.textContent = zoomMap[key] || 'Onbekend niveau';
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beschaving & Energie — Big History (Interactief)</title>
+
+<style>
+/* ------------ KLEUREN & BASIS ------------- */
+:root{
+  --bg:#071014;
+  --card:#0f1720;
+  --accent:#2ea58a;
+  --accent-2:#66fcf1;
+  --muted:#bfc8ca;
+  --text:#eef6f5;
+  --maxw:1000px;
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  background:linear-gradient(180deg,#020306 0%,var(--bg) 60%);
+  color:var(--text);
+  font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.65;
+}
+
+/* ------------ HEADER ------------- */
+header{
+  padding:56px 20px;
+  text-align:center;
+  background:linear-gradient(90deg,#16233b,#14414a);
+  border-bottom:1px solid rgba(255,255,255,0.03)
+}
+header h1{
+  margin:0;
+  font-size:2.1rem;
+  color:var(--accent-2);
+}
+header p{
+  margin:8px 0 0;
+  font-size:1.02rem;
+  color:var(--muted);
+}
+
+/* ------------ NAVIGATIE ------------- */
+nav{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding:14px 10px;
+  background:var(--card);
+  box-shadow:0 2px 6px rgba(0,0,0,0.6)
+}
+nav a{
+  color:var(--accent-2);
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:6px;
+  font-weight:600;
+}
+nav a:hover{
+  background:rgba(102,252,241,0.06)
+}
+
+/* ------------ CONTAINERS ------------- */
+.container{
+  max-width:var(--maxw);
+  margin:36px auto;
+  padding:0 18px;
+}
+article.card{
+  background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.008));
+  border-radius:12px;
+  padding:28px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.7)
+}
+
+h2{color:var(--accent);margin-top:0}
+h3{color:var(--accent-2)}
+.subsection{
+  background:rgba(255,255,255,0.01);
+  padding:16px;
+  border-radius:8px;
+  margin:14px 0;
+}
+
+footer{
+  margin-top:36px;
+  padding:22px 10px;
+  text-align:center;
+  color:var(--muted);
+  font-size:0.95rem;
+}
+
+/* =======================================================
+   🏛️ 1 — Animatie: De energieladder van beschavingen
+======================================================= */
+.energy-ladder{
+  position:relative;
+  padding:30px;
+  background:#091e24;
+  border-radius:12px;
+  text-align:center;
+  overflow:hidden;
+}
+
+.ladder-step{
+  width:90%;
+  margin:14px auto;
+  padding:14px;
+  background:rgba(255,255,255,0.02);
+  border-radius:8px;
+  border-left:4px solid var(--accent);
+  cursor:pointer;
+  transition:0.25s;
+}
+.ladder-step:hover{
+  background:rgba(46,165,138,0.18);
+  transform:scale(1.02);
+}
+
+/* ============================
+     ⚙️ Interactieve urbanisatie kaart
+============================ */
+#urbanMap{
+  background:#0b1a1f;
+  border-radius:12px;
+  padding:20px;
+  text-align:center;
+}
+#urbanMap svg circle{
+  cursor:pointer;
+  transition:0.3s;
+}
+#urbanMap svg circle:hover{
+  stroke:#66fcf1;
+  stroke-width:3;
+}
+
+/* ==============================
+     📊 Energiebronnen-simulator
+============================== */
+#energySim{
+  background:#0a1618;
+  padding:20px;
+  border-radius:12px;
+}
+#energySim input{
+  width:100%;
+}
+
+/* ==============================
+    🧠 Kennis-tijdlijn (interactief)
+============================== */
+.knowledge-timeline{
+  display:flex;
+  justify-content:space-between;
+  margin-top:30px;
+  position:relative;
+}
+.knowledge-timeline .dot{
+  width:22px;height:22px;
+  background:#66fcf1;
+  border-radius:50%;
+  cursor:pointer;
+  transition:0.3s;
+}
+.knowledge-timeline .dot:hover{
+  transform:scale(1.2);
+  background:#2ea58a;
+}
+#knowledgeDesc{
+  margin-top:20px;
+  color:#aef8e3;
+  min-height:40px;
+}
+
+/* =============================
+   🌐 Samenlevingscomplexiteit zoom-in
+============================= */
+#zoomButtons button{
+  background:#1f2833;
+  color:#66fcf1;
+  border:1px solid #66fcf1;
+  border-radius:6px;
+  padding:8px 12px;
+  cursor:pointer;
+  transition:0.3s;
+}
+#zoomButtons button:hover{
+  background:#2ea58a;
+  color:#fff;
+}
+#zoomContent{
+  background:#0a1618;
+  padding:20px;
+  border-radius:10px;
+  min-height:120px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Beschaving & Energie</h1>
+  <p>Van vuur tot digitale netwerken — hoe energie de mensheid transformeert</p>
+</header>
+
+<nav>
+  <a href="index.html">🏠 Home</a>
+  <a href="kosmos.html">Kosmos</a>
+  <a href="leven.html">Leven</a>
+  <a href="beschaving.html">Beschaving</a>
+  <a href="toekomst.html">Toekomst</a>
+</nav>
+
+<div class="container">
+
+<!-- ==========================================================
+     1 — ENERGIE-LADDER VAN BEVOLKINGEN
+=========================================================== -->
+<article class="card">
+<h2>Energieladder van menselijke beschavingen</h2>
+<p>Klik op een stap voor extra uitleg over hoe energie nieuwe lagen van complexiteit mogelijk maakt.</p>
+
+<div class="energy-ladder">
+  <div class="ladder-step" data-info="Vuur bood warmte, koken, bescherming en sociale samenkomst — een cruciale katalysator voor vroege cultuur.">🔥 Vuur — 1e energierevolutie</div>
+  <div class="ladder-step" data-info="Landbouw verhoogde energie per oppervlakte, gaf voedseloverschotten en maakte steden, hiërarchieën en specialisatie mogelijk.">🌾 Landbouw — 2e energierevolutie</div>
+  <div class="ladder-step" data-info="Wind, water en dierenkracht breidden menselijke arbeid uit en maakten handel en industrie complexer.">⚙️ Pre-industriële energie</div>
+  <div class="ladder-step" data-info="Fossiele brandstoffen ontketenden explosieve groei, globalisatie en technologische versnelling.">⛽ Fossiele brandstoffen — Industriële Revolutie</div>
+  <div class="ladder-step" data-info="Elektriciteit maakte directe, gecontroleerde energiestromen mogelijk — de basis voor moderne technologie.">⚡ Elektriciteit & netwerken</div>
+  <div class="ladder-step" data-info="Digitale informatie versnelt kennisdeling, automatisering en wereldwijde connectiviteit. Een nieuwe vorm van energie: informatie.">💻 Informatie-energie — Digitale Era</div>
+</div>
+
+<p id="ladderOutput" style="margin-top:15px;color:#aef8e3;"></p>
+</article>
+
+<!-- ==========================================================
+     2 — INTERACTIEVE URBANISATIE KAART
+=========================================================== -->
+<article class="card">
+<h2>Urbanisatie & energieverdeling</h2>
+<p>Klik op een stadspoint op de kaart om te zien hoe energieconsumptie verschilt.</p>
+
+<div id="urbanMap">
+  <svg viewBox="0 0 600 280">
+    <circle cx="80" cy="160" r="20" fill="#4fc3f7" data-info="Kleine nederzetting — lage energiebehoefte, voornamelijk biomassa." />
+    <circle cx="200" cy="120" r="25" fill="#2ea58a" data-info="Regionale stad — mix van landbouwenergie & ambachtelijke industrie." />
+    <circle cx="340" cy="150" r="30" fill="#ffca28" data-info="Industriestad — hoge vraag naar steenkool, olie en arbeid." />
+    <circle cx="500" cy="130" r="35" fill="#d32f2f" data-info="Megastad — extreem hoge energiestromen: elektriciteit, transport, data." />
+  </svg>
+</div>
+
+<div id="urbanOutput" style="margin-top:15px;color:#aef8e3;"></div>
+</article>
+
+<!-- ==========================================================
+     3 — ENERGIEBRONNEN-SIMULATOR
+=========================================================== -->
+<article class="card">
+<h2>Energie-economie simulator</h2>
+<p>
+  Pas de verhoudingen tussen energiebronnen aan en zie hoe duurzaam (of instabiel)
+  een samenleving wordt.
+</p>
+
+<div id="energySim">
+  <label>Fossiele brandstoffen:
+    <input type="range" id="fossil" min="0" max="100" value="60">
+  </label><br><br>
+  <label>Hernieuwbare energie:
+    <input type="range" id="renew" min="0" max="100" value="30">
+  </label><br><br>
+  <label>Informatie-infrastructuur:
+    <input type="range" id="info" min="0" max="100" value="50">
+  </label><br><br>
+
+  <button id="calcE" style="background:#2ea58a;color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer;">Bereken stabiliteit</button>
+
+  <div id="energyOutput" style="margin-top:18px;font-weight:600;color:#66fcf1;"></div>
+</div>
+</article>
+
+<!-- ==========================================================
+     4 — TIJDLIJN VAN KENNIS & COMPLEXITEIT
+=========================================================== -->
+<article class="card">
+<h2>Tijdlijn van kennisexplosies</h2>
+<p>Klik op een punt om te zien hoe kennis groei leidt tot nieuwe energievormen.</p>
+
+<div class="knowledge-timeline">
+  <div class="dot" data-phase="Schrift" data-info="Het schrift maakte langdurige opslag van kennis mogelijk en verhoogde bestuurlijke complexiteit."></div>
+  <div class="dot" data-phase="Wetenschappelijke Revolutie" data-info="Nieuwe natuurwetten en experimenten creëerden de basis voor moderne technologie."></div>
+  <div class="dot" data-phase="Industrialisatie" data-info="Mechanisatie + fossiele brandstoffen → gigantische energiestromen."></div>
+  <div class="dot" data-phase="Digitale Revolutie" data-info="Exponentiële groei van informatie en wereldwijde netwerken."></div>
+</div>
+
+<div id="knowledgeDesc">Klik op een punt om informatie te tonen.</div>
+</article>
+
+<!-- ==========================================================
+     5 — ZOOM-IN: NIVEAUS VAN SAMENLEVING
+=========================================================== -->
+<article class="card">
+<h2>Zoom in op Beschaving</h2>
+<p>Kies een schaalniveau en ontdek hoe energiestromen daar werken.</p>
+
+<div id="zoomButtons" style="display:flex;gap:10px;justify-content:center;margin-bottom:14px;">
+  <button data-zoom="individu">🧍 Individu</button>
+  <button data-zoom="stad">🏙️ Stad</button>
+  <button data-zoom="rijk">🏛️ Rijk</button>
+  <button data-zoom="wereld">🌍 Wereldsysteem</button>
+</div>
+
+<div id="zoomContent">
+  🧍 Individuen gebruiken energie om arbeid, kennis en creativiteit te produceren — de kleinste bouwsteen van een complexe samenleving.
+</div>
+</article>
+
+</div>
+
+<footer>
+  © 2025 Big History Blog — <a href="index.html" style="color:var(--accent-2)">Terug naar Home</a>
+</footer>
+
+
+<!-- ==========================================================
+     JAVASCRIPT
+=========================================================== -->
+<script>
+// Ladder interactief
+document.querySelectorAll(".ladder-step").forEach(step=>{
+  step.addEventListener("click",()=>{
+    document.getElementById("ladderOutput").textContent = step.dataset.info;
+  });
+});
+
+// Urbanisatie kaart
+document.querySelectorAll("#urbanMap circle").forEach(c=>{
+  c.addEventListener("click",()=>{
+    document.getElementById("urbanOutput").textContent = c.dataset.info;
+  });
+});
+
+// Energie simulator
+document.getElementById("calcE").addEventListener("click",()=>{
+  const f = +document.getElementById("fossil").value;
+  const r = +document.getElementById("renew").value;
+  const i = +document.getElementById("info").value;
+
+  let score = r*1.4 + i*1.2 - f*0.8;
+
+  const result =
+    score > 50 ? "🌱 Duurzaam & toekomstbestendig" :
+    score > 10 ? "😐 Kwetsbaar evenwicht" :
+    "⚠️ Onhoudbare energiebalans!";
+
+  document.getElementById("energyOutput").innerHTML =
+    `Stabiliteitsscore: <strong>${score.toFixed(1)}</strong> — ${result}`;
+});
+
+// Tijdlijn
+document.querySelectorAll(".knowledge-timeline .dot").forEach(dot=>{
+  dot.addEventListener("click",()=>{
+    document.getElementById("knowledgeDesc").textContent = dot.dataset.info;
+  });
+});
+
+// Zoom
+const zoomText = {
+  individu:"🧍 Individuen zetten chemische energie (voedsel) om in arbeid, innovatie en cultuur.",
+  stad:"🏙️ Steden zijn energiehubs: transport, industrie, voedselstromen, data — enorme complexiteit.",
+  rijk:"🏛️ Rijken beheren wegen, handel, legers en bureaucratie — energiestromen op macroschaal.",
+  wereld:"🌍 Wereldsystemen gebruiken gigantische energienetwerken: globale logistiek, internet, industrie."
+};
+document.querySelectorAll("#zoomButtons button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.getElementById("zoomContent").textContent = zoomText[btn.dataset.zoom];
+  });
+});
+</script>
+
+</body>
+</html>
+
